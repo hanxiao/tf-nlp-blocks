@@ -5,16 +5,16 @@
 Author: Han Xiao https://hanxiao.github.io
 
 
-A collection of frequently-used deep learning blocks I have implemented in Tensorflow. It covers the core tasks in NLP such as embedding, encoding, matching and pooling. All implementations follow a modularized design pattern which I called "block-design". More details can be found [in my blog post](https://hanxiao.github.io/2018/06/25/4-Encoding-Blocks-You-Need-to-Know-Besides-LSTM-RNN-in-Tensorflow/).
+A collection of frequently-used deep learning blocks I have implemented in Tensorflow. It covers the core tasks in NLP such as embedding, encoding, matching and pooling. All implementations follow a modularized design pattern which I called the "block-design". More details can be found [in my blog post](https://hanxiao.github.io/2018/06/25/4-Encoding-Blocks-You-Need-to-Know-Besides-LSTM-RNN-in-Tensorflow/).
 
   * [Requirements](#requirements)
   * [Contents](#contents)
-    + [`encode_blocks.py`](#-encode-blockspy-)
-    + [`match_blocks.py`](#-match-blockspy-)
-    + [`pool_blocks.py`](#-pool-blockspy-)
-    + [`embed_blocks.py`](#-embed-blockspy-)
-    + [`mulitask_blocks.py`](#-mulitask-blockspy-)
-    + [`nn.py`](#-nnpy-)
+    + [`encode_blocks.py`](#encode-blockspy)
+    + [`match_blocks.py`](#match-blockspy)
+    + [`pool_blocks.py`](#pool-blockspy)
+    + [`embed_blocks.py`](#embed-blockspy)
+    + [`mulitask_blocks.py`](#mulitask-blockspy)
+    + [`nn.py`](#nnpy)
   * [Run](#run)
 
 
