@@ -45,8 +45,13 @@ A collection of pooling blocks. It fuses/reduces on the time axis `L`. Input is 
 
 There are also some convolution-based pooling blocks build on `SWEM_pool`, but they are for experimental purpose. Thus, I will not list them here.
 
+### `embed_blocks.py`
+A collection of positional encoding on the sequence.
 
-- `embed_blocks.py`: positional encoding on the sequence
-    - `Positional_embed`
-    - `SinusPositional_embed`: sinusoid encoding described in ["Attention is all you need"](https://arxiv.org/pdf/1706.03762.pdf)
-    
+| Name  | Dependencies | Description | Reference |
+| --- | --- |--- |--- |
+|`SinusPositional_embed`| | sinusoid encoding described in ["Attention is all you need"](https://arxiv.org/pdf/1706.03762.pdf)| [Attention is all you need](https://arxiv.org/pdf/1706.03762.pdf)|
+
+### `nn.py`
+A collection of auxiliary functions, e.g. masking, normalizing, slicing. 
+
