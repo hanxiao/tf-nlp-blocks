@@ -7,6 +7,17 @@ Author: Han Xiao https://hanxiao.github.io
 
 A collection of frequently-used deep learning blocks I have implemented in Tensorflow. It covers the core tasks in NLP such as embedding, encoding, matching and pooling. All implementations follow a modularized design pattern which I called "block-design". More details can be found [in my blog post](https://hanxiao.github.io/2018/06/25/4-Encoding-Blocks-You-Need-to-Know-Besides-LSTM-RNN-in-Tensorflow/).
 
+  * [Requirements](#requirements)
+  * [Contents](#contents)
+    + [`encode_blocks.py`](#-encode-blockspy-)
+    + [`match_blocks.py`](#-match-blockspy-)
+    + [`pool_blocks.py`](#-pool-blockspy-)
+    + [`embed_blocks.py`](#-embed-blockspy-)
+    + [`mulitask_blocks.py`](#-mulitask-blockspy-)
+    + [`nn.py`](#-nnpy-)
+  * [Run](#run)
+
+
 ## Requirements
 
 - Python >= 3.6
@@ -52,7 +63,7 @@ A collection of positional encoding on the sequence.
 |`Positional_embed`| |parameterize the absolute position of the tokens in the input sequence | [A Convolutional Encoder Model for Neural Machine Translation](https://arxiv.org/pdf/1611.02344.pdf)|
 
 ### `mulitask_blocks.py`
-A collection of multi-task learning blocks
+A collection of multi-task learning blocks. So far only the "cross-stitch block" is available.
 
 | Name  | Dependencies | Description | Reference |
 | --- | --- |--- |--- |
