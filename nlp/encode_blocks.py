@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# Han Xiao <artex.xh@gmail.com> <https://hanxiao.github.io>
+
+
 import tensorflow as tf
 
 from nlp.nn import initializer, regularizer, spatial_dropout, get_lstm_init_state, dropout_res_layernorm

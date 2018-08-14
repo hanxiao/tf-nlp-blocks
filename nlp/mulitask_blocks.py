@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# Han Xiao <artex.xh@gmail.com> <https://hanxiao.github.io>
+
+
 import tensorflow as tf
 
 from nlp.nn import get_var, linear_logit, get_cross_correlated_mat, get_self_correlated_mat, gate_filter

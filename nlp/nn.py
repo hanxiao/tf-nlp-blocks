@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# Han Xiao <artex.xh@gmail.com> <https://hanxiao.github.io>
+
+
 import tensorflow as tf
 
 initializer = tf.contrib.layers.variance_scaling_initializer(factor=1.0,
