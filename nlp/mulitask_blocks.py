@@ -43,15 +43,15 @@ def CrossStitch(logit_A, logit_B,
         return output_A, output_B
 
 
-def Stack_CrossStitch(shared_input, cooc_AB=None, num_layers=3,
-                      num_out_A=None, num_out_B=None,
-                      transform=linear_logit,
-                      learn_cooc='FIXED',
-                      gated=False,
-                      self_correlation=False,
-                      scope=None,
-                      reuse=None,
-                      **kwargs):
+def Stack_CrossStitch_old(shared_input, cooc_AB=None, num_layers=3,
+                          num_out_A=None, num_out_B=None,
+                          transform=linear_logit,
+                          learn_cooc='FIXED',
+                          gated=False,
+                          self_correlation=False,
+                          scope=None,
+                          reuse=None,
+                          **kwargs):
     with tf.variable_scope(scope or 'Stacked_Cross_Stitch_Block', reuse=reuse):
         pA_given_B, pB_given_A = get_cross_correlated_mat(num_out_A, num_out_B, learn_cooc, cooc_AB)
 
@@ -74,15 +74,15 @@ def Stack_CrossStitch(shared_input, cooc_AB=None, num_layers=3,
         return out_A, out_B
 
 
-def Stack_CrossStitch_v2(shared_input=None, init_input_A=None, init_input_B=None,
-                         cooc_AB=None, num_layers=3,
-                         num_out_A=None, num_out_B=None,
-                         transform=linear_logit,
-                         learn_cooc='FIXED',
-                         self_correlation=False,
-                         scope=None,
-                         reuse=None,
-                         **kwargs):
+def Stack_CrossStitch(shared_input=None, init_input_A=None, init_input_B=None,
+                      cooc_AB=None, num_layers=3,
+                      num_out_A=None, num_out_B=None,
+                      transform=linear_logit,
+                      learn_cooc='FIXED',
+                      self_correlation=False,
+                      scope=None,
+                      reuse=None,
+                      **kwargs):
     if shared_input is None and (init_input_A is None or init_input_B is None):
         raise AttributeError('Must specify shared input or init_input')
 

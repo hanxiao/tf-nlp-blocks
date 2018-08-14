@@ -32,7 +32,7 @@ A collection of sequence matching blocks, aka. attention. Input are two sequnces
 |`Attentive_match`| |basic attention mechanism with different scoring functions, also supports future blinding.| `additive`: [Neural machine translation by jointly learning to align and translate](https://arxiv.org/abs/1409.0473); `scaled`: [Attention is all you need](https://arxiv.org/pdf/1706.03762.pdf)| 
 |`Transformer_match`| |a multi-head attention block from ["Attention is all you need"](https://arxiv.org/pdf/1706.03762.pdf)| [Attention is all you need](https://arxiv.org/pdf/1706.03762.pdf)|
 |`AttentiveCNN_match`| `Attentive_match`|the light version of attentive convolution, with the possibility of future blinding to ensure causality. | [Attentive Convolution](https://arxiv.org/pdf/1710.00519)
-|`BiDaf_match`| |attention flow layer used in bidaf model. | [Bidirectional Attention Flow for Machine Comprehension](https://arxiv.org/abs/1611.01603)
+|`BiDaf_match`| |attention flow layer used in bidaf model. | [Bidirectional Attention Flow for Machine Comprehension](https://arxiv.org/abs/1611.01603)|
 
 ### `pool_blocks.py`
 A collection of pooling blocks. It fuses/reduces on the time axis `L`. Input is a sequence with shape of `[B, L, D]`, output is in `[B, D]`.
@@ -49,8 +49,21 @@ A collection of positional encoding on the sequence.
 | Name  | Dependencies | Description | Reference |
 | --- | --- |--- |--- |
 |`SinusPositional_embed`| | generate a sinusoid signal that has the same length of the input sequence | [Attention is all you need](https://arxiv.org/pdf/1706.03762.pdf)|
-|`Positional_embed`| |parameterize the absolute position of the tokens in the input sequence | [A Convolutional Encoder Model for Neural Machine Translation](https://arxiv.org/pdf/1611.02344.pdf)
+|`Positional_embed`| |parameterize the absolute position of the tokens in the input sequence | [A Convolutional Encoder Model for Neural Machine Translation](https://arxiv.org/pdf/1611.02344.pdf)|
+
+### `mulitask_blocks.py`
+A collection of multi-task learning blocks
+
+| Name  | Dependencies | Description | Reference |
+| --- | --- |--- |--- |
+|`CrossStitch`||a cross-stitch block, modeling the correlation & self-correlation of two tasks| [Cross-stitch Networks for Multi-task Learning](https://arxiv.org/pdf/1604.03539)|
+|`Stack_CrossStitch`|`CrossStitch`|stacking multiple cross-stitch blocks together with shared/separated input| [Cross-stitch Networks for Multi-task Learning](https://arxiv.org/pdf/1604.03539)|
+
 
 ### `nn.py`
 A collection of auxiliary functions, e.g. masking, normalizing, slicing. 
 
+
+## Run 
+
+Run `app.py` for a simple test on toy data.
