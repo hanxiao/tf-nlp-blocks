@@ -1,5 +1,5 @@
 # tf-nlp-blocks
-[![Python: >=3.6](https://img.shields.io/badge/Python->=3.6-brightgreen.svg)](https://opensource.org/licenses/MIT)    [![Tensorflow: >=1.6](https://img.shields.io/badge/Tensorflow->=1.6-brightgreen.svg)](https://opensource.org/licenses/MIT)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python: 3.6](https://img.shields.io/badge/Python-3.6-brightgreen.svg)](https://opensource.org/licenses/MIT)    [![Tensorflow: 1.6](https://img.shields.io/badge/Tensorflow-1.6-brightgreen.svg)](https://opensource.org/licenses/MIT)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
 Author: Han Xiao https://hanxiao.github.io
