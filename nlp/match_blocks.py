@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 from nlp.encode_blocks import CNN_encode
-from nlp.nn import linear_logit, layer_norm
+from nlp.nn import linear_logit, layer_norm, dropout_res_layernorm
 
 
 def AttentiveCNN_match(context, query, context_mask,
@@ -17,18 +17,7 @@ def AttentiveCNN_match(context, query, context_mask,
         att_context, _ = Attentive_match(context, query, context_mask, query_mask, causality=causality)
         cnn_att = CNN_encode(att_context, filter_size=1, direction=direction, act_fn=None)
         output = tf.nn.tanh(cnn_wo_att + cnn_att)
-        # Dropouts
-        output = tf.nn.dropout(output, keep_prob=dropout_keep_rate)
-
-        if residual:
-            # Residual connection
-            output += context
-
-        if normalize_output:
-            # Normalize
-            output = layer_norm(output)  # (B, Lq, D)
-
-        return output
+        return dropout_res_layernorm(context, output, **kwargs)
 
 
 def Attentive_match(context, query, context_mask, query_mask,
@@ -184,7 +173,7 @@ def Transformer_match(context,
     return outputs
 
 
-def BiDaf_match(a, b, a_mask, b_mask, residual, scope=None, reuse=None, **kwargs):
+def BiDaf_match(a, b, a_mask, b_mask, scope=None, reuse=None, **kwargs):
     # context: [batch, l, d]
     # question: [batch, l2, d]
     with tf.variable_scope(scope, reuse=reuse):
@@ -207,7 +196,4 @@ def BiDaf_match(a, b, a_mask, b_mask, residual, scope=None, reuse=None, **kwargs
         query_con = tf.matmul(tf.transpose(
             tf.reduce_max(kernel, 2, keepdims=True), [0, 2, 1]), a * a_mask)
         query_con = tf.tile(query_con, [1, tf.shape(a)[1], 1])
-        if residual:
-            return tf.concat([a * query_con, a * con_query, a, query_con], 2)
-        else:
-            return tf.concat([a * query_con, a * con_query, a, query_con], 2)
+        return tf.concat([a * query_con, a * con_query, a, query_con], 2)

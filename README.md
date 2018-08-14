@@ -14,20 +14,27 @@ A collection of frequently-used NLP blocks I have implemented in Tensorflow. All
 - Python >= 3.6
 - Tensorflow >= 1.6
 
-## Content
+## Contents
 
 ### `encode_blocks.py`
 A collection of sequence encoding blocks. Input is a sequence with shape of `[B, L, D]`, output is another sequence in `[B, L, D']`, where `B` is batch size, `L` is the length of the sequence and `D` and `D'` are the dimensions.
 
-| Name  | Description | Reference |
-| --- | --- |--- |
-| `LSTM_encode`| a fast multi-layer bidirectional LSTM implementation based on [`CudnnLSTM`](https://www.tensorflow.org/api_docs/python/tf/contrib/cudnn_rnn/CudnnLSTM#call) | [Tensorflow doc on `CudnnLSTM`](https://www.tensorflow.org/api_docs/python/tf/contrib/cudnn_rnn/CudnnLSTM#call)|
-| `TCN_encode` | a temporal convolution netowork, basically a multi-layer dilated CNN with special padding to ensure the causality| [Temporal Convolutional Networks: A Unified Approach to Action Segmentation](https://arxiv.org/abs/1608.08242)|
-| `Res_DualCNN_encode` | a sub-block used by `TCN_encode`. It is a two-layer CNN with spatial dropout in-between, then followed by a residual connection and a layer-norm.| [Temporal Convolutional Networks: A Unified Approach to Action Segmentation](https://arxiv.org/abs/1608.08242)|
-| `CNN_encode` | a standard `conv1d` implementation on `L` axis, with the possibility to set different paddings | [Convolutional Neural Networks for Sentence Classification](https://arxiv.org/abs/1408.5882)|
+| Name  | Dependencies| Description | Reference |
+| --- | --- |--- |--- |
+| `LSTM_encode`| | a fast multi-layer bidirectional LSTM implementation based on [`CudnnLSTM`](https://www.tensorflow.org/api_docs/python/tf/contrib/cudnn_rnn/CudnnLSTM#call) | [Tensorflow doc on `CudnnLSTM`](https://www.tensorflow.org/api_docs/python/tf/contrib/cudnn_rnn/CudnnLSTM#call)|
+| `TCN_encode` | `Res_DualCNN_encode`, `CNN_encode`| a temporal convolution netowork, basically a multi-layer dilated CNN with special padding to ensure the causality| [Temporal Convolutional Networks: A Unified Approach to Action Segmentation](https://arxiv.org/abs/1608.08242)|
+| `Res_DualCNN_encode` |`CNN_encode`| a sub-block used by `TCN_encode`. It is a two-layer CNN with spatial dropout in-between, then followed by a residual connection and a layer-norm.| [Temporal Convolutional Networks: A Unified Approach to Action Segmentation](https://arxiv.org/abs/1608.08242)|
+| `CNN_encode` | | a standard `conv1d` implementation on `L` axis, with the possibility to set different paddings | [Convolutional Neural Networks for Sentence Classification](https://arxiv.org/abs/1408.5882)|
 
 ### `match_blocks.py`
-A collection of sequence matching blocks, aka. attention. Input are two sequnces: `context` in the shape of `[B, L_c, D]`, and `query` in the shape of `[B, L_q, D]`. The output is a sequence has the same length as `context`, i.e. with shape of `[B, L_c, D]`. Each position in the output should encodes its relevance to the `query`.
+A collection of sequence matching blocks, aka. attention. Input are two sequnces: `context` in the shape of `[B, L_c, D]`, and `query` in the shape of `[B, L_q, D]`. The output is a sequence has the same length as `context`, i.e. with shape of `[B, L_c, D]`. Each position in the output should encodes the relevance of that position in `context` to the complete `query`.
+
+| Name  | Dependencies | Description | Reference |
+| --- | --- |--- |--- |
+|`Attentive_match`| |basic attention mechanism with different scoring functions, also supports future blinding.| `additive`: [Neural machine translation by jointly learning to align and translate](https://arxiv.org/abs/1409.0473); `scaled`: [Attention is all you need](https://arxiv.org/pdf/1706.03762.pdf)| 
+|`Transformer_match`| |a multi-head attention block from ["Attention is all you need"](https://arxiv.org/pdf/1706.03762.pdf)| [Attention is all you need](https://arxiv.org/pdf/1706.03762.pdf)|
+|`AttentiveCNN_match`| `Attentive_match`|the light version of attentive convolution, with the possibility of future blinding to ensure causality. | [Attentive Convolution](https://arxiv.org/pdf/1710.00519)
+|`BiDaf_match`| |attention flow layer used in bidaf model. | [Bidirectional Attention Flow for Machine Comprehension](https://arxiv.org/abs/1611.01603)
 
 - `embed_blocks.py`: positional encoding on the sequence
     - `Positional_embed`
