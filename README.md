@@ -22,7 +22,7 @@ A collection of sequence encoding blocks. Input is a sequence with shape of `[B,
 | Name  | Dependencies| Description | Reference |
 | --- | --- |--- |--- |
 | `LSTM_encode`| | a fast multi-layer bidirectional LSTM implementation based on [`CudnnLSTM`](https://www.tensorflow.org/api_docs/python/tf/contrib/cudnn_rnn/CudnnLSTM#call) | [Tensorflow doc on `CudnnLSTM`](https://www.tensorflow.org/api_docs/python/tf/contrib/cudnn_rnn/CudnnLSTM#call)|
-| `TCN_encode` | `Res_DualCNN_encode`, `CNN_encode`| a temporal convolution netowork, basically a multi-layer dilated CNN with special padding to ensure the causality| [Temporal Convolutional Networks: A Unified Approach to Action Segmentation](https://arxiv.org/abs/1608.08242)|
+| `TCN_encode` | `Res_DualCNN_encode`| a temporal convolution netowork, basically a multi-layer dilated CNN with special padding to ensure the causality| [Temporal Convolutional Networks: A Unified Approach to Action Segmentation](https://arxiv.org/abs/1608.08242)|
 | `Res_DualCNN_encode` |`CNN_encode`| a sub-block used by `TCN_encode`. It is a two-layer CNN with spatial dropout in-between, then followed by a residual connection and a layer-norm.| [Temporal Convolutional Networks: A Unified Approach to Action Segmentation](https://arxiv.org/abs/1608.08242)|
 | `CNN_encode` | | a standard `conv1d` implementation on `L` axis, with the possibility to set different paddings | [Convolutional Neural Networks for Sentence Classification](https://arxiv.org/abs/1408.5882)|
 
@@ -35,6 +35,16 @@ A collection of sequence matching blocks, aka. attention. Input are two sequnces
 |`Transformer_match`| |a multi-head attention block from ["Attention is all you need"](https://arxiv.org/pdf/1706.03762.pdf)| [Attention is all you need](https://arxiv.org/pdf/1706.03762.pdf)|
 |`AttentiveCNN_match`| `Attentive_match`|the light version of attentive convolution, with the possibility of future blinding to ensure causality. | [Attentive Convolution](https://arxiv.org/pdf/1710.00519)
 |`BiDaf_match`| |attention flow layer used in bidaf model. | [Bidirectional Attention Flow for Machine Comprehension](https://arxiv.org/abs/1611.01603)
+
+### `pool_blocks.py`
+A collection of pooling blocks. It fuses/reduces on the time axis `L`. Input is a sequence with shape of `[B, L, D]`, output is in `[B, D]`.
+
+| Name  | Dependencies | Description | Reference |
+| --- | --- |--- |--- |
+|`SWEM_pool`| | do pooling on the input sequence, supports max/avg. pooling, hierarchical avg. max pooling. | [Baseline Needs More Love: On Simple Word-Embedding-Based Models and Associated Pooling Mechanisms](https://arxiv.org/abs/1805.09843) |
+
+There are also some convolution-based pooling blocks build on `SWEM_pool`, but they are for experimental purpose. Thus, I will not list them here.
+
 
 - `embed_blocks.py`: positional encoding on the sequence
     - `Positional_embed`

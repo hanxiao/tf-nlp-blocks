@@ -5,19 +5,19 @@ from nlp.match_blocks import Transformer_match
 from nlp.nn import masked_reduce_max, masked_reduce_mean, get_var, minus_mask
 
 
-def MH_Att_fuse(seqs, mask, scope=None, reuse=None, **kwargs):
-    with tf.variable_scope(scope or 'MultiHead_Attention_Fuse_Block', reuse=reuse):
+def MH_Att_pool(seqs, mask, scope=None, reuse=None, **kwargs):
+    with tf.variable_scope(scope or 'MultiHead_Attention_Pool_Block', reuse=reuse):
         rep = Transformer_match(seqs, seqs, **kwargs)
-        return SWEM_fuse(rep, mask, **kwargs)
+        return SWEM_pool(rep, mask, **kwargs)
 
 
-def Stack_MH_Att_fuse(seqs, mask, num_layers=5, num_units=None,
+def Stack_MH_Att_pool(seqs, mask, num_layers=5, num_units=None,
                       concat_output=True,
                       residual=True, scope=None, reuse=None, **kwargs):
     if num_units is None or residual:
         num_units = seqs.get_shape().as_list()[-1]
     pooled_outputs = []
-    with tf.variable_scope(scope or 'Stack_MultiHead_Attention_Fuse_Block', reuse=reuse):
+    with tf.variable_scope(scope or 'Stack_MultiHead_Attention_Pool_Block', reuse=reuse):
         res_rep = None
         iter_rep = seqs
         for idx in range(num_layers):
@@ -27,12 +27,12 @@ def Stack_MH_Att_fuse(seqs, mask, num_layers=5, num_units=None,
                 if residual and (res_rep is not None):
                     iter_rep = iter_rep + res_rep
                 res_rep = iter_rep
-                pooled = SWEM_fuse(iter_rep, mask, **kwargs)
+                pooled = SWEM_pool(iter_rep, mask, **kwargs)
                 pooled_outputs.append(pooled)
         return tf.concat(pooled_outputs, axis=1) if concat_output else pooled_outputs[-1]
 
 
-def Stack_CNN_fuse(seqs, mask, filter_sizes=(3, 4, 5), num_units=None,
+def Stack_CNN_pool(seqs, mask, filter_sizes=(3, 4, 5), num_units=None,
                    residual=True, concat_output=True, scope=None, reuse=None,
                    **kwargs):
     if num_units is None or residual:
@@ -51,45 +51,45 @@ def Stack_CNN_fuse(seqs, mask, filter_sizes=(3, 4, 5), num_units=None,
                 if residual and (res_rep is not None):
                     iter_rep = iter_rep + res_rep
                 res_rep = iter_rep
-                pooled = SWEM_fuse(iter_rep, mask, **kwargs)
+                pooled = SWEM_pool(iter_rep, mask, **kwargs)
                 pooled_outputs.append(pooled)
         return tf.concat(pooled_outputs, axis=1) if concat_output else pooled_outputs[-1]
 
 
-def CNN_fuse(seqs, mask, filter_size, num_units=None, scope=None, reuse=None, **kwargs):
+def CNN_pool(seqs, mask, filter_size, num_units=None, scope=None, reuse=None, **kwargs):
     if num_units is None:
         num_units = seqs.get_shape().as_list()[-1]
-    with tf.variable_scope(scope or 'CNN_Fuse_Block', reuse=reuse):
+    with tf.variable_scope(scope or 'CNN_Pool_Block', reuse=reuse):
         conv_relu = CNN_encode(seqs, filter_size, num_units)
-        pooled = SWEM_fuse(conv_relu, mask, **kwargs)
+        pooled = SWEM_pool(conv_relu, mask, **kwargs)
     return pooled
 
 
-def MR_CNN_fuse(seqs, mask, filter_sizes=(3, 4, 5),
+def MR_CNN_pool(seqs, mask, filter_sizes=(3, 4, 5),
                 highway=False, scope=None, reuse=None, **kwargs):
     """
     Multi-resolution CNN fusion
     """
     with tf.variable_scope(scope or 'MR_CNN_Block', reuse=reuse):
-        outputs = [SWEM_fuse(seqs, mask, **kwargs)] if highway else []
+        outputs = [SWEM_pool(seqs, mask, **kwargs)] if highway else []
         for fz in filter_sizes:
-            outputs.append(CNN_fuse(seqs, mask, fz, scope='cnn_fuse_%d' % fz, **kwargs))
+            outputs.append(CNN_pool(seqs, mask, fz, scope='cnn_pool_%d' % fz, **kwargs))
         return tf.concat(outputs, axis=1)
 
 
-def MH_MR_CNN_fuse_v2(seqs, mask, num_heads=4, num_units=256,
+def MH_MR_CNN_pool_v2(seqs, mask, num_heads=4, num_units=256,
                       scope=None, reuse=None, **kwargs):
     with tf.variable_scope(scope or 'MultiHead_MCNN_Block', reuse=reuse):
         outputs = []
         part_seqs = tf.split(seqs, num_heads, axis=2)
         for idx, part_seq in enumerate(part_seqs):
-            outputs.append(MR_CNN_fuse(part_seq, mask,
+            outputs.append(MR_CNN_pool(part_seq, mask,
                                        num_units=int(num_units / num_heads),
                                        scope='mr_cnn_head_%d' % idx, **kwargs))
         return tf.concat(outputs, axis=1)
 
 
-def MH_MR_CNN_fuse(seqs, mask, num_heads=3,
+def MH_MR_CNN_pool(seqs, mask, num_heads=3,
                    scope=None, reuse=None, **kwargs):
     """
     Multi-head multi-resolution CNN fusion
@@ -97,11 +97,11 @@ def MH_MR_CNN_fuse(seqs, mask, num_heads=3,
     with tf.variable_scope(scope or 'MultiHead_MCNN_Block', reuse=reuse):
         outputs = []
         for j in range(num_heads):
-            outputs.append(MR_CNN_fuse(seqs, mask, scope='mr_cnn_block_%d' % j, **kwargs))
+            outputs.append(MR_CNN_pool(seqs, mask, scope='mr_cnn_block_%d' % j, **kwargs))
         return tf.add_n(outputs)
 
 
-def SWEM_fuse(seqs, mask, reduce='concat_mean_max', scope=None, reuse=None,
+def SWEM_pool(seqs, mask, reduce='concat_mean_max', scope=None, reuse=None,
               task_name=None, norm_by_layer=False, dropout_keep=1., **kwargs):
     """
     Simple word embedding fusion
