@@ -5,7 +5,7 @@
 Author: Han Xiao https://hanxiao.github.io
 
 
-A collection of frequently-used NLP blocks I have implemented in Tensorflow. All implementations follow a modularize design pattern which I call "block", Details can be found [in my blog post](https://hanxiao.github.io/2018/06/25/4-Encoding-Blocks-You-Need-to-Know-Besides-LSTM-RNN-in-Tensorflow/).
+A collection of frequently-used deep learning blocks I have implemented in Tensorflow. It covers the core tasks in NLP such as embedding, encoding, matching and pooling. All implementations follow a modularized design pattern which I called "block-design". More details can be found [in my blog post](https://hanxiao.github.io/2018/06/25/4-Encoding-Blocks-You-Need-to-Know-Besides-LSTM-RNN-in-Tensorflow/).
 
 ## Requirements
 
@@ -49,7 +49,7 @@ A collection of positional encoding on the sequence.
 | Name  | Dependencies | Description | Reference |
 | --- | --- |--- |--- |
 |`SinusPositional_embed`| | generate a sinusoid signal that has the same length of the input sequence | [Attention is all you need](https://arxiv.org/pdf/1706.03762.pdf)|
-|`Positional_embed`| parameterize the absolute position of the tokens in the input sequence | [A Convolutional Encoder Model for Neural Machine Translation](https://arxiv.org/pdf/1611.02344.pdf)
+|`Positional_embed`| |parameterize the absolute position of the tokens in the input sequence | [A Convolutional Encoder Model for Neural Machine Translation](https://arxiv.org/pdf/1611.02344.pdf)
 
 ### `nn.py`
 A collection of auxiliary functions, e.g. masking, normalizing, slicing. 
