@@ -9,11 +9,11 @@ A collection of frequently-used deep learning blocks I have implemented in Tenso
 
   * [Requirements](#requirements)
   * [Contents](#contents)
-    + [`encode_blocks.py`](#encode-blockspy)
-    + [`match_blocks.py`](#match-blockspy)
-    + [`pool_blocks.py`](#pool-blockspy)
-    + [`embed_blocks.py`](#embed-blockspy)
-    + [`mulitask_blocks.py`](#mulitask-blockspy)
+    + [`encode_blocks.py`](#encode_blockspy)
+    + [`match_blocks.py`](#match_blockspy)
+    + [`pool_blocks.py`](#pool_blockspy)
+    + [`embed_blocks.py`](#embed_blockspy)
+    + [`mulitask_blocks.py`](#mulitask_blockspy)
     + [`nn.py`](#nnpy)
   * [Run](#run)
 
