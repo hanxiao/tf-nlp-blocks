@@ -178,27 +178,27 @@ def Transformer_match(context,
     return outputs
 
 
-def BiDaf_match(a, b, a_mask, b_mask, scope=None, reuse=None, **kwargs):
+def BiDaf_match(context, query, context_mask, query_mask, scope=None, reuse=None, **kwargs):
     # context: [batch, l, d]
     # question: [batch, l2, d]
     with tf.variable_scope(scope, reuse=reuse):
-        n_a = tf.tile(tf.expand_dims(a, 2), [1, 1, tf.shape(b)[1], 1])
-        n_b = tf.tile(tf.expand_dims(b, 1), [1, tf.shape(a)[1], 1, 1])
+        n_a = tf.tile(tf.expand_dims(context, 2), [1, 1, tf.shape(query)[1], 1])
+        n_b = tf.tile(tf.expand_dims(query, 1), [1, tf.shape(context)[1], 1, 1])
 
         n_ab = n_a * n_b
         n_abab = tf.concat([n_ab, n_a, n_b], -1)
 
         kernel = tf.squeeze(tf.layers.dense(n_abab, units=1), -1)
 
-        a_mask = tf.expand_dims(a_mask, -1)
-        b_mask = tf.expand_dims(b_mask, -1)
-        kernel_mask = tf.matmul(a_mask, b_mask, transpose_b=True)
+        context_mask = tf.expand_dims(context_mask, -1)
+        query_mask = tf.expand_dims(query_mask, -1)
+        kernel_mask = tf.matmul(context_mask, query_mask, transpose_b=True)
         kernel += (kernel_mask - 1) * 1e5
 
-        con_query = tf.matmul(tf.nn.softmax(kernel, 1), b)
-        con_query = con_query * a_mask
+        con_query = tf.matmul(tf.nn.softmax(kernel, 1), query)
+        con_query = con_query * context_mask
 
         query_con = tf.matmul(tf.transpose(
-            tf.reduce_max(kernel, 2, keepdims=True), [0, 2, 1]), a * a_mask)
-        query_con = tf.tile(query_con, [1, tf.shape(a)[1], 1])
-        return tf.concat([a * query_con, a * con_query, a, query_con], 2)
+            tf.reduce_max(kernel, 2, keepdims=True), [0, 2, 1]), context * context_mask)
+        query_con = tf.tile(query_con, [1, tf.shape(context)[1], 1])
+        return tf.concat([context * query_con, context * con_query, context, query_con], 2)
