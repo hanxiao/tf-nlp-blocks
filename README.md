@@ -31,8 +31,8 @@ A collection of sequence encoding blocks. Input is a sequence with shape of `[B,
 | Name  | Dependencies| Description | Reference |
 | --- | --- |--- |--- |
 | `LSTM_encode`| | a fast multi-layer bidirectional LSTM implementation based on [`CudnnLSTM`](https://www.tensorflow.org/api_docs/python/tf/contrib/cudnn_rnn/CudnnLSTM#call). Expect to be 5~10x faster than the standard tf `LSTMCell`. However, it can only run on GPU. | [Tensorflow doc on `CudnnLSTM`](https://www.tensorflow.org/api_docs/python/tf/contrib/cudnn_rnn/CudnnLSTM#call)|
-| `TCN_encode` | `Res_DualCNN_encode`| a temporal convolution netowork, basically a multi-layer dilated CNN with special padding to ensure the causality| [Temporal Convolutional Networks: A Unified Approach to Action Segmentation](https://arxiv.org/abs/1608.08242)|
-| `Res_DualCNN_encode` |`CNN_encode`| a sub-block used by `TCN_encode`. It is a two-layer CNN with spatial dropout in-between, then followed by a residual connection and a layer-norm.| [Temporal Convolutional Networks: A Unified Approach to Action Segmentation](https://arxiv.org/abs/1608.08242)|
+| `TCN_encode` | `Res_DualCNN_encode`| a temporal convolution network described in the paper, basically a multi-layer dilated CNN with special padding to ensure the causality| [An Empirical Evaluation of Generic Convolutional and Recurrent Networks for Sequence Modeling](https://arxiv.org/pdf/1803.01271)|
+| `Res_DualCNN_encode` |`CNN_encode`| a sub-block used by `TCN_encode`. It is a two-layer CNN with spatial dropout in-between, then followed by a residual connection and a layer-norm.| [An Empirical Evaluation of Generic Convolutional and Recurrent Networks for Sequence Modeling](https://arxiv.org/pdf/1803.01271)|
 | `CNN_encode` | | a standard `conv1d` implementation on `L` axis, with the possibility to set different paddings | [Convolutional Neural Networks for Sentence Classification](https://arxiv.org/abs/1408.5882)|
 
 ### `match_blocks.py`
