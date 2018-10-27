@@ -12,6 +12,8 @@ def LSTM_encode(seqs, causality=False, scope='lstm_encode_block', reuse=None, **
     with tf.variable_scope(scope, reuse=reuse):
         if causality:
             kwargs['direction'] = 'unidirectional'
+        if 'num_units' not in kwargs or kwargs['num_units'] is None:
+            kwargs['num_units'] = seqs.get_shape().as_list()[-1]
         batch_size = tf.shape(seqs)[0]
         _seqs = tf.transpose(seqs, [1, 0, 2])  # to T, B, D
         lstm = tf.contrib.cudnn_rnn.CudnnLSTM(**kwargs)

@@ -128,8 +128,8 @@ def layer_norm(inputs,
     return outputs
 
 
-def linear_logit(x, units, act_fn=None, dropout_keep=1., use_layer_norm=False, scope=None, **kwargs):
-    with tf.variable_scope(scope or 'linear_logit'):
+def linear_logit(x, units, act_fn=None, dropout_keep=1., use_layer_norm=False, scope=None, reuse=None, **kwargs):
+    with tf.variable_scope(scope or 'linear_logit', reuse=reuse):
         logit = tf.layers.dense(x, units=units, activation=act_fn,
                                 kernel_initializer=initializer,
                                 kernel_regularizer=regularizer)

@@ -10,7 +10,7 @@ from nlp.match_blocks import Transformer_match
 from nlp.nn import masked_reduce_max, masked_reduce_mean, get_var, minus_mask
 
 
-def SWEM_pool(seqs, mask, reduce='concat_mean_max', scope=None, reuse=None,
+def SWEM_pool(seqs, mask, reduce='CONCAT_MEAN_MAX', scope=None, reuse=None,
               task_name=None, norm_by_layer=False, dropout_keep=1., **kwargs):
     """
     Simple word embedding fusion

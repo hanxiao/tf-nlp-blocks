@@ -12,9 +12,6 @@ from nlp.nn import linear_logit, layer_norm, dropout_res_layernorm
 def AttentiveCNN_match(context, query, context_mask,
                        query_mask, causality=False,
                        scope='AttentiveCNN_Block',
-                       dropout_keep_rate=1.0,
-                       residual=False,
-                       normalize_output=False,
                        reuse=None, **kwargs):
     with tf.variable_scope(scope, reuse=reuse):
         direction = 'forward' if causality else 'none'
@@ -82,10 +79,10 @@ def Transformer_match(context,
                       context_mask,
                       query_mask,
                       num_units=None,
-                      num_heads=1,
+                      num_heads=4,
                       dropout_keep_rate=1.0,
                       causality=False,
-                      scope='MultiHead_Attention_Block',
+                      scope='Transformer_Block',
                       reuse=None,
                       residual=False,
                       normalize_output=False,
@@ -202,3 +199,15 @@ def BiDaf_match(context, query, context_mask, query_mask, scope=None, reuse=None
             tf.reduce_max(kernel, 2, keepdims=True), [0, 2, 1]), context * context_mask)
         query_con = tf.tile(query_con, [1, tf.shape(context)[1], 1])
         return tf.concat([context * query_con, context * con_query, context, query_con], 2)
+
+
+def Stacked_Self_match(context, context_mask, self_match,
+                       num_layers=3,
+                       scope='Stacked_Self_match_Block',
+                       reuse=None, **kwargs):
+    output = context
+    with tf.variable_scope(scope, reuse=reuse):
+        for j in range(num_layers):
+            output = self_match(output, output, context_mask, context_mask,
+                                scope=scope + '_layer_%d' % j, **kwargs)
+    return output
